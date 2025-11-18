@@ -1,0 +1,263 @@
+/* -----------------------------------------------------------
+   ESTILO GENERAL
+------------------------------------------------------------*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Orbitron", sans-serif;
+    background: black;
+    color: #0ff;
+    overflow: hidden;
+}
+
+#hud {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+
+/* -----------------------------------------------------------
+   CAJAS DE SECCIÓN
+------------------------------------------------------------*/
+
+
+.hud-section {
+    background: rgba(0, 10, 20, 0.6);
+    border: 1px solid #0ff4;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #0ff2;
+    backdrop-filter: blur(3px);
+}
+
+/* -----------------------------------------------------------
+   DISTRIBUCIÓN DEL HUD
+------------------------------------------------------------*/
+
+/* Panel izquierdo (Información de combate) */
+.hud-section:nth-of-type(1) {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 260px;
+}
+
+.hud-section:nth-of-type(2) {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 260px;
+}
+
+.hud-section:nth-of-type(3) {
+    position: absolute;
+    bottom: 30px;
+    right: 20px; 
+    width: 260px;
+    text-align: center;
+}
+
+.hud-section-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #0ff;
+    text-shadow: 0 0 6px #0ff;
+    border-bottom: 1px solid #0ff4;
+    padding-bottom: 4px;
+}
+
+
+
+/* -----------------------------------------------------------
+   ESTADÍSTICAS
+------------------------------------------------------------*/
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0;
+}
+
+.label {
+    color: #7ff;
+}
+
+.value {
+    color: #0ff;
+    font-weight: bold;
+    text-shadow: 0 0 4px #0ff;
+}
+
+/* Barra de escudo */
+.bar-container {
+    width: 100%;
+    height: 8px;
+    background: #033;
+    border: 1px solid #0ff7;
+    margin-top: 6px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: #0ff;
+    width: 100%;
+    box-shadow: 0 0 8px #0ff;
+}
+
+/* -----------------------------------------------------------
+   RADAR
+------------------------------------------------------------*/
+
+.enemy-radar {
+    width: 200px;
+    height: 200px;
+    margin: 10px auto;
+    border: 2px solid #0ff8;
+    border-radius: 50%;
+    position: relative;
+    background: radial-gradient(circle, #022 20%, #000 100%);
+    box-shadow: 0 0 15px #0ff4;
+    overflow: hidden;
+}
+
+.radar-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background:
+        linear-gradient(#0ff3 1px, transparent 1px),
+        linear-gradient(90deg, #0ff3 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+}
+
+.radar-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: #0ff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px #0ff;
+    z-index: 10;
+}
+
+.player-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 14px solid #0ff;
+    transform-origin: 50% 7px;
+    filter: drop-shadow(0 0 6px #0ff);
+    z-index: 11;
+}
+
+.radar-sweep {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        rgba(0,255,255,0.3) 0deg,
+         rgba(0,255,255,0.05) 60deg,
+        transparent 120deg
+    );
+    animation: sweep 3s linear infinite;
+}
+
+@keyframes sweep {
+    to { transform: rotate(360deg); }
+}
+
+.radar-blip {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px currentColor;
+    animation: pulse 1s ease-in-out infinite;
+    z-index: 5;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.radar-label-front, .radar-label-back, .radar-label-left, .radar-label-right {
+    position: absolute;
+    font-size: 10px;
+    color: #0ff9;
+}
+
+.radar-label-front { top: -16px; left: 50%; transform: translateX(-50%); }
+.radar-label-back { bottom: -16px; left: 50%; transform: translateX(-50%); }
+.radar-label-left { left: -20px; top: 50%; transform: translateY(-50%); }
+.radar-label-right { right: -20px; top: 50%; transform: translateY(-50%); }
+
+
+/* -----------------------------------------------------------
+   GAME OVER
+------------------------------------------------------------*/
+
+#game-over {
+    display: none;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+}
+
+
+#restart-button {
+    background: #0ff;
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    pointer-events: auto;
+    transition: all 0.3s;
+}
+
+
+#restart-button:hover {
+    background: #00ffff;
+    box-shadow: 0 0 15px #0ff;
+    transform: scale(1.05);
+}
+
+
+
+/* -----------------------------------------------------------
+   CONTROLES (NO SE PUEDE MOVER)
+------------------------------------------------------------*/
+
+#controls {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 20, 20, 0.7);
+    border: 1px solid #0ff8;
+    padding: 10px;
+    width: 190px;
+    font-size: 12px;
+    border-radius: 6px;
+    pointer-events: auto;
+}
