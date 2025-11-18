@@ -427,7 +427,7 @@ function create3DHUD() {
     // ==================== POSICIONES FIJAS RELATIVAS A LA NAVE ====================
 
     // Panel 1: Información de Combate (izquierda)
-    const panel1Pos = new THREE.Vector3(-2, 1.2, -2.5);
+    const panel1Pos = new THREE.Vector3(-2, 1.2, -3);
     const panel1Rot = new THREE.Euler(-Math.PI / 12, Math.PI / 9, 0);
     
     const text1 = createTextSprite(
@@ -439,7 +439,7 @@ function create3DHUD() {
     );
     
     // Panel 2: Estado de la Nave (derecha)
-    const panel2Pos = new THREE.Vector3(2, 1.2, -2.5);
+    const panel2Pos = new THREE.Vector3(2, 1.2, -3);
     const panel2Rot = new THREE.Euler(-Math.PI / 12, -Math.PI / 9, 0);
     
     const text2 = createTextSprite(
@@ -451,7 +451,7 @@ function create3DHUD() {
     );
     
     // Panel 3: Radar (centro abajo)
-    const panel3Pos = new THREE.Vector3(0, -1, -3);
+    const panel3Pos = new THREE.Vector3(0, -1, -1);
     const panel3Rot = new THREE.Euler(-Math.PI / 20, 0, 0);
     
     const text3 = createTextSprite(
@@ -582,7 +582,7 @@ function updateHUDTexture(textElement, text, isRadar = false, panelType = 'left'
         context.fillStyle = '#00ffff';
         context.textAlign = 'center';
         context.textBaseline = 'top';
-        context.fillText('RADAR DE AMENAZAS', canvas.width/2, 20);
+        context.fillText('', canvas.width/2, 20);
         // Dibujar radar con enemigos
         drawRadarWithEnemies(context, canvas.width, canvas.height);
     } else {
@@ -896,12 +896,7 @@ async function preloadEnemyModels() {
                     });
                     
                     LOADED_MODELS[type] = object;
-                    console.log(`✅ Modelo ${type} cargado`);
-                    resolve();
-                },
-                undefined,
-                (error) => {
-                    console.warn(`⚠️ Error cargando ${type}:`, error);
+                    console.log(` Modelo ${type} cargado`);
                     resolve();
                 }
             );
@@ -950,7 +945,7 @@ function createEnemy(type) {
     // Usar modelo precargado
     const modelClone = LOADED_MODELS[type].clone();
     
-    // Aplicar color específico al clon
+  /*  // Aplicar color específico al clon
     modelClone.traverse((child) => {
         if (child.isMesh && child.material) {
             if (Array.isArray(child.material)) {
@@ -969,6 +964,7 @@ function createEnemy(type) {
             }
         }
     });
+    */
     
     enemyGroup.add(modelClone);
     
@@ -1132,7 +1128,7 @@ function shoot() {
     let spawnOffset, direction;
     
     if (renderer.xr.isPresenting && controller2) {
-        // En VR: disparar desde el controlador derecho
+        // En VR: disparar
         spawnOffset = new THREE.Vector3(0, 0, -0.1);
         direction = new THREE.Vector3(0, 0, -1);
         
@@ -1582,7 +1578,7 @@ function update3DHUD() {
     const speed = spaceshipBody ? spaceshipBody.velocity.length() : velocity.length();
     const closestDistance = getClosestEnemyDistance();
 
-    // Actualizar panel 1: Información de Combate (izquierda)
+    // Actualizar panel 1: Información de Combate 
     updateHUDTexture(
         hudElements.panel1,
         `Enemigos: ${enemies.length}/${ENEMY_LIMIT}\nPuntuación: ${score}\nTiempo: ${Math.round(gameTime)}s`,
@@ -1590,7 +1586,7 @@ function update3DHUD() {
         'left'
     );
 
-    // Actualizar panel 2: Estado de la Nave (derecha)
+    // Actualizar panel 2: Estado de la Nave 
     updateHUDTexture(
         hudElements.panel2,
         `Velocidad: ${speed.toFixed(1)} km/s\nEscudo: ${Math.round(shield)}%\nMás Cercano: ${closestDistance >= 0 ? Math.round(closestDistance) + 'm' : '-'}`,
@@ -1684,6 +1680,4 @@ function animate() {
 // Inicializar el juego
 init().then(() => {
     animate();
-}).catch(error => {
-    console.error('Error inicializando el juego:', error);
 });
